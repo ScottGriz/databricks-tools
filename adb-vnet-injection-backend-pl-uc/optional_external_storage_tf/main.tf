@@ -78,25 +78,6 @@ data "databricks_spark_version" "latest" {
 
 # TODO: Need to automatically delegate Service Principal as Storage Blob Data Contributor to the storage account
 
-resource "databricks_cluster" "shared_passthrough" {
-  cluster_name            = "Shared Passthrough for mount"
-  spark_version           = data.databricks_spark_version.latest.id
-  node_type_id            = data.databricks_node_type.smallest.id
-  autotermination_minutes = 10
-  num_workers             = 1
-
-  spark_conf = {
-    "spark.databricks.cluster.profile" : "serverless",
-    "spark.databricks.repl.allowedLanguages" : "python,sql",
-    "spark.databricks.passthrough.enabled" : "true",
-    "spark.databricks.pyspark.enableProcessIsolation" : "true"
-  }
-
-  custom_tags = {
-    "ResourceClass" : "Serverless"
-  }
-}
-
 resource "databricks_mount" "external_storage_mount_passthrough" {
     name = "tf-abfss"
     cluster_id = databricks_cluster.shared_passthrough.id
