@@ -9,3 +9,5 @@ This Terraform folder is based on [Databricks Terraform examples](https://github
 4. From the main directory execute a Plan and if successful run apply
 * terraform plan -var-file="env.tfvars"
 * terraform apply -var-file="env.tfvars"
+#### Sample Data Folder
+This folder contains sample data that can be used for privacy function
