@@ -13,7 +13,10 @@ This Terraform folder is based on [Databricks Terraform examples](https://github
 Serverless clusters need access to your storage accounts.  VNet Whitelisting using Azure Storage Firewall is the simplest option.  Private Link is an option not covered in these scripts.  Refer to our [documentation](https://learn.microsoft.com/en-us/azure/databricks/security/network/serverless-network-security/serverless-private-link) for additional information 
 Once the new storage account is created, we will run AZ CLI commands to add all the Databricks VNets to the storage firewall. You will need to run the script for each storage account serverless needs to access
 <p>
-Clone or copy my github repo https://github.com/ScottGriz/databricks-toolsNavigate to the /azure-storage-fw directory
+Clone or copy my [github databricks-tools repo](https://github.com/ScottGriz/databricks-tools)
+</p>
+<p>
+Navigate to the /azure-storage-fw directory
 </p>
 <p>I am assuming you have access to a linux VM or MAC:you may have to add execute permissions to the .sh files </p>
 <b>$ chmod u+x *.sh</b>
