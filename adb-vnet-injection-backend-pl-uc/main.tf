@@ -1,8 +1,10 @@
-
 resource "azurerm_resource_group" "resourcegroup" {
   name     = var.resource_group_name
   location = var.location
-  tags = local.tags
+  tags = {
+    Owner = "scott.grzybowski@databricks.com",
+    RemoveAfter = "2025-11-01"
+  }
 }
 
 resource "azurerm_virtual_network" "vnet_for_databricks" {
@@ -10,14 +12,14 @@ resource "azurerm_virtual_network" "vnet_for_databricks" {
   location = var.location
   resource_group_name = azurerm_resource_group.resourcegroup.name
   address_space = [var.cidr]
-  tags = local.tags
+  tags = {Environment = "Demo-with-terraform" }
 }
 
 resource "azurerm_network_security_group" "nsg_for_databricks" {
   name                = "${var.prefix}-nsg"
   location            = var.location
   resource_group_name = azurerm_resource_group.resourcegroup.name
-  tags                = local.tags
+  tags                = {Environment = "Demo-with-terraform" }
 }
 
 resource "azurerm_network_security_rule" "aad" {
@@ -81,6 +83,9 @@ resource "azurerm_subnet" "private" {
   virtual_network_name = azurerm_virtual_network.vnet_for_databricks.name
   address_prefixes     = [cidrsubnet(var.cidr, 3, 1)]
 
+  private_endpoint_network_policies_enabled = true
+  private_link_service_network_policies_enabled  = true
+
   delegation {
     name = "databricks"
     service_delegation {
@@ -105,6 +110,7 @@ resource "azurerm_subnet" "plsubnet" {
   resource_group_name                            = azurerm_resource_group.resourcegroup.name
   virtual_network_name                           = azurerm_virtual_network.vnet_for_databricks.name
   address_prefixes                               = [cidrsubnet(var.cidr, 3, 2)]
+  private_endpoint_network_policies_enabled      = false
 }
 
 
@@ -118,10 +124,9 @@ resource "azurerm_databricks_workspace" "this" {
   public_network_access_enabled = true // no front end privatelink deployment
   network_security_group_rules_required = "NoAzureDatabricksRules"
   customer_managed_key_enabled = false # TODO for more secure deployment
-  default_storage_firewall_enabled = true
-  access_connector_id = azurerm_databricks_access_connector.dbfs.id
-  tags = local.tags
-
+  tags                          = { 
+    Environment = "Demo-with-terraform"
+  }
   custom_parameters {
     no_public_ip             = true
     storage_account_name     = var.ws_managed_storage_account_name
@@ -151,7 +156,7 @@ resource "azurerm_private_endpoint" "uiapi" {
   subnet_id           = azurerm_subnet.plsubnet.id
 
   private_service_connection {
-    name                           = "ple-${var.databricks_workspace_name}-uiapi-pep"
+    name                           = "ple-${var.databricks_workspace_name}-uiapi"
     private_connection_resource_id = azurerm_databricks_workspace.this.id
     is_manual_connection           = false
     subresource_names              = ["databricks_ui_api"]
