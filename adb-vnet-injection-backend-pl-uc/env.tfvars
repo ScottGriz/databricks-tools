@@ -5,5 +5,5 @@ ws_managed_storage_account_name="scottgriztfmdsa"
 location="westus2"
 prefix="scott-griz-tf-westus2"
 cidr="172.32.0.0/24"
-
+metastore_id="YOUR_METASTORE_UUID"
 #terraform apply -var-file="env.tfvars"

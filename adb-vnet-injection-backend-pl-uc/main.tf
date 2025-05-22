@@ -167,3 +167,10 @@ resource "azurerm_private_dns_zone_virtual_network_link" "uiapidnszonevnetlink" 
   virtual_network_id    = azurerm_virtual_network.vnet_for_databricks.id // connect to spoke vnet
 }
 
+# Assign the newly created workspace to an existing metastore in the same region
+resource "databricks_metastore_assignment" "this" {
+  workspace_id         = azurerm_databricks_workspace.this.workspace_id
+  metastore_id         = var.metastore_id
+  default_catalog_name = "main"
+}
+

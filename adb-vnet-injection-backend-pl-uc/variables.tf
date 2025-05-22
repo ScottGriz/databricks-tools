@@ -28,6 +28,11 @@ variable prefix {
   type        = string
 }
 
+variable metastore_id {
+  description = "Unique UUID for the UC Metastore - must be in the same region as the Workspace"
+  type        = string
+}
+
 variable cidr {
   description = "The CIDR range for the network that we will be provisioning"
   type        = string
