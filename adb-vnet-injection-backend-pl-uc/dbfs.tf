@@ -1,5 +1,9 @@
 locals {
   dbfs_resource_id = "${azurerm_databricks_workspace.this.managed_resource_group_id}/providers/Microsoft.Storage/storageAccounts/${azurerm_databricks_workspace.this.custom_parameters[0].storage_account_name}"
+  tags = {
+    Owner = "scott.grzybowski@databricks.com",
+    RemoveAfter = "2026-12-31"
+  }
 }
 
 # Access Connector needed for Private DBFS

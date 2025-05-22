@@ -3,7 +3,7 @@ resource "azurerm_resource_group" "resourcegroup" {
   location = var.location
   tags = {
     Owner = "scott.grzybowski@databricks.com",
-    RemoveAfter = "2025-11-01"
+    RemoveAfter = "2026-12-31"
   }
 }
 
