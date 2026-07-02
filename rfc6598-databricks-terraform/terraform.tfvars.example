@@ -1,0 +1,19 @@
+# Copy to terraform.tfvars and edit.
+
+subscription_id     = "<YOURSUBSCRIPTIONID>"
+resource_group_name = "scott-griz-ip-conserve"
+location            = "westus2"
+workspace_name      = "scott-griz-ip-conserve"
+
+# Set true to have Terraform create the RG; false to use an existing one.
+create_resource_group = false
+
+# Standard is sufficient for SNAT + egress rules. Use Premium only if you need
+# TLS inspection / IDPS (and exclude cert-pinning endpoints from interception).
+firewall_tier = "Standard"
+
+# Defaults match the validated reference architecture; override only if these
+# CIDRs collide with your routable space.
+# rfc6598_vnet_cidr   = "100.64.0.0/16"
+# firewall1_vnet_cidr = "10.29.0.0/24"
+# firewall2_vnet_cidr = "10.30.0.0/24"
