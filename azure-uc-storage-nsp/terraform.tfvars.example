@@ -1,0 +1,28 @@
+# Copy to terraform.tfvars and fill in. Pass the secret through the
+# environment instead of this file:  export TF_VAR_client_secret='...'
+
+subscription_id = "00000000-0000-0000-0000-000000000000"
+tenant_id       = "00000000-0000-0000-0000-000000000000"
+client_id       = "00000000-0000-0000-0000-000000000000"
+
+resource_group_name = "my-databricks-rg"
+# location          = "eastus2"   # defaults to the resource group's region
+
+nsp_name = "my-nsp"
+# nsp_resource_group_name   = "my-network-rg"   # defaults to resource_group_name
+# nsp_profile_name          = "defaultProfile"
+# nsp_access_mode           = "Learning"         # = Transition mode
+# Only if the profile doesn't already allow Databricks serverless:
+# nsp_serverless_service_tags = ["AzureDatabricksServerless.EastUS2"]
+
+access_connector_name = "my-uc-access-connector"
+storage_account_name  = "myucextstorage01"
+container_name        = "uc-external"
+
+databricks_workspace_url = "https://adb-1234567890123456.7.azuredatabricks.net"
+storage_credential_name  = "my_uc_storage_credential"
+external_location_name   = "my_uc_external_location"
+
+tags = {
+  owner = "you@example.com"
+}
